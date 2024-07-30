@@ -7,12 +7,12 @@ POST http://localhost:3000/cast
 Content-Type: application/json
 
 {
-  "vote": "Myself"
+  "vote": "Elmer J. Fudd"
 }
 ###
 POST http://localhost:3000/cast
 Content-Type: application/json
 
 {
-  "vote": "Yourself"
+  "vote": "Bugs Bunny"
 }

@@ -1,0 +1,33 @@
+apiVersion: acme.com/v1
+kind: Postgres
+metadata:
+  name: voting-database
+---
+apiVersion: acme.com/v1
+kind: Workload
+metadata:
+  name: voting-app-backend
+image: localhost:5001/voting-app-backend:latest
+replicas: 1
+port: 3000
+env:
+  POSTGRES_HOST: ${{ kblock://postgres.acme.com/voting-database/host }}
+  POSTGRES_PORT: ${{ kblock://postgres.acme.com/voting-database/port }}
+  POSTGRES_USER: ${{ kblock://postgres.acme.com/voting-database/user }}
+  POSTGRES_DB: ${{ kblock://postgres.acme.com/voting-database/database }}
+envSecrets:
+  POSTGRES_PASSWORD:
+    name: ${{ kblock://postgres.acme.com/voting-database/passwordSecret }}
+    key: ${{ kblock://postgres.acme.com/voting-database/passwordKey }}
+---
+apiVersion: acme.com/v1
+kind: Workload
+metadata:
+  name: voting-cast-app
+image: localhost:5001/voting-cast-app:latest
+replicas: 1
+port: 5173
+env: 
+  VITE_SERVER_URL: voting-app-backend-deployment-service-c85f112f
+  VITE_SERVER_PORT: "3000"
+command: ["npm", "run", "dev"]

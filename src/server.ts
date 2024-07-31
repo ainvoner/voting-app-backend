@@ -8,7 +8,10 @@ config();
 const port = process.env.PORT || 3000;
 const app: Express = express();
 app.use(express.json());
-app.use(cors());
+app.use('*', cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+}));
 
 const createRoutes = () => {
     app.get('/setup', async (req: Request, res: Response) => {

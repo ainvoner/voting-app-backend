@@ -2,11 +2,13 @@ apiVersion: acme.com/v1
 kind: Postgres
 metadata:
   name: voting-database
+  namespace: acme-operators
 ---
 apiVersion: acme.com/v1
 kind: Workload
 metadata:
   name: voting-app-backend
+  namespace: acme-operators
 image: localhost:5001/voting-app-backend:latest
 replicas: 1
 port: 3000
@@ -24,10 +26,11 @@ apiVersion: acme.com/v1
 kind: Workload
 metadata:
   name: voting-cast-app
+  namespace: acme-operators
 image: localhost:5001/voting-cast-app:latest
 replicas: 1
 port: 5173
 env: 
-  VITE_SERVER_URL: voting-app-backend-deployment-service-c85f112f
-  VITE_SERVER_PORT: "3000"
+  VITE_SERVER_URL: ${{ kblock://workload.acme.com/voting-app-backend/host }}
+  VITE_SERVER_PORT: ${{ kblock://workload.acme.com/voting-app-backend/port }}
 command: ["npm", "run", "dev"]

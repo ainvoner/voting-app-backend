@@ -11,7 +11,7 @@ metadata:
   namespace: acme-operators
 route: /api(/|$)(.*)
 rewrite: /$2
-image: localhost:5001/voting-app-backend:latest
+image: kind-registry:5001/voting-app-backend:latest
 replicas: 1
 port: 3000
 env:
@@ -29,7 +29,7 @@ kind: Workload
 metadata:
   name: vote-casting-app
   namespace: acme-operators
-image: localhost:5001/vote-casting-app:latest
+image: kind-registry:5001/vote-casting-app:latest
 route: /vote
 replicas: 1
 port: 5173
@@ -43,7 +43,7 @@ kind: Workload
 metadata:
   name: votes-results-app
   namespace: acme-operators
-image: localhost:5001/votes-results-app:latest
+image: kind-registry:5001/votes-results-app:latest
 route: /results
 replicas: 1
 port: 5174

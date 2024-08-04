@@ -29,7 +29,7 @@ const createRoutes = () => {
         }
     });
 
-    app.get('/votes', async (req: Request, res: Response) => {
+    app.get('/results', async (req: Request, res: Response) => {
         try {
             const { rows } = await pool.query('SELECT * FROM votes');
             res.status(200).json(rows);
